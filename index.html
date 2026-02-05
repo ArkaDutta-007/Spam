@@ -8,20 +8,40 @@
 body {
   font-family: Arial, sans-serif;
   background: #fff0f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
+}
+
+#spamContainer {
+  text-align: center;
 }
 
 #spamLink {
-  font-size: 22px;
-  font-weight: bold;
-  color: #ff1478;
+  font-size: 80px;
   cursor: pointer;
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+#spamLink:hover {
+  transform: scale(1.1);
+}
+
+#spamMessage {
+  font-size: 24px;
+  color: #ff1478;
+  margin-top: 15px;
+  font-weight: bold;
 }
 
 /* Card */
 #card {
   display: none;
   width: 420px;
-  margin: 40px auto;
   background: white;
   border-radius: 22px;
   padding: 30px;
@@ -32,26 +52,44 @@ body {
 
 /* Envelope */
 #envelope {
-  font-size: 80px;
+  font-size: 120px;
   cursor: pointer;
-  transition: transform .6s;
+  transition: all 0.6s ease;
+  display: inline-block;
 }
 #envelope.open {
-  transform: translateY(-40px) scale(1.1);
+  transform: rotateX(180deg) translateY(-60px);
+  filter: drop-shadow(0 8px 16px rgba(255, 20, 120, 0.3));
 }
 
 /* Buttons */
 button {
-  font-size: 20px;
-  padding: 10px 26px;
+  font-size: 18px;
+  padding: 14px 32px;
   border: none;
-  border-radius: 14px;
+  border-radius: 25px;
   cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s;
+  margin: 10px;
 }
-#yes { background: #ff409f; color: white; }
+#yes { 
+  background: linear-gradient(135deg, #ff409f, #ff1478);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 20, 120, 0.4);
+}
+#yes:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255, 20, 120, 0.6);
+}
 #no {
-  background: #ff8bd1;
+  background: linear-gradient(135deg, #ff8bd1, #ffb3d9);
+  color: #fff;
   position: absolute;
+  box-shadow: 0 4px 15px rgba(255, 139, 209, 0.3);
+}
+#no:hover {
+  box-shadow: 0 6px 20px rgba(255, 139, 209, 0.5);
 }
 
 /* Wings */
@@ -85,38 +123,61 @@ button {
 
 #love {
   display: none;
-  font-size: 34px;
+  font-size: 28px;
   color: #ff1478;
   margin-top: 20px;
+  font-weight: bold;
+}
+
+#runningMan {
+  display: none;
+  font-size: 60px;
+  animation: run 3s linear infinite;
+  margin-top: 20px;
+  overflow: hidden;
+}
+
+@keyframes run {
+  0% { transform: translateX(-100vw); }
+  100% { transform: translateX(100vw); }
 }
   </style>
 </head>
 <body>
 
-<div id="spamLink">💌 Spam</div>
+<div id="spamContainer">
+  <div id="spamLink">💌</div>
+  <div id="spamMessage">Open me for surprise 😉</div>
+</div>
 
 <div id="card">
   <div id="envelope">💌</div>
   <h2 id="q" style="display:none;">Will you be my Valentine? 💖</h2><br>
-  <button id="yes" style="display:none;">YES</button>
-  <button id="no" style="display:none;">no</button>
-  <div id="love">I love you ❤️</div>
+  <button id="yes" style="display:none;">YES ❤️</button>
+  <button id="no" style="display:none;">No 😔</button>
+  <div id="love">I love you too 😘❤️</div>
+  <div id="runningMan">🏃💨</div>
 </div>
 
 <script>
-const spam = document.getElementById("spamLink");
+const spamContainer = document.getElementById("spamContainer");
+const spamLink = document.getElementById("spamLink");
+const spamMessage = document.getElementById("spamMessage");
 const card = document.getElementById("card");
 const envelope = document.getElementById("envelope");
 const q = document.getElementById("q");
 const yes = document.getElementById("yes");
 const no = document.getElementById("no");
 const love = document.getElementById("love");
+const runningMan = document.getElementById("runningMan");
 
-spam.addEventListener("click", () => {
+spamLink.addEventListener("click", () => {
+  spamContainer.style.display = "none";
   card.style.display = "block";
 });
-spam.addEventListener("touchend", (e) => {
+spamLink.addEventListener("touchend", (e) => {
   e.preventDefault();
+  spamContainer.style.display = "none";
   card.style.display = "block";
 });
 
@@ -128,7 +189,7 @@ function openEnvelope() {
     no.style.display="inline-block";
     no.style.left="180px";
     no.style.top="260px";
-  },500);
+  },600);
 }
 
 envelope.addEventListener("click", openEnvelope);
@@ -154,7 +215,12 @@ no.addEventListener("touchstart", () => {
 });
 
 yes.addEventListener("click", () => {
+  yes.style.display = "none";
+  no.style.display = "none";
+  q.style.display = "none";
   love.style.display="block";
+  runningMan.style.display="block";
+  
   for(let i=0;i<120;i++){
     const c=document.createElement("div");
     c.className="confetti";
@@ -165,6 +231,10 @@ yes.addEventListener("click", () => {
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),3000);
   }
+  
+  setTimeout(() => {
+    runningMan.style.display = "none";
+  }, 3000);
 });
 </script>
 </body>
