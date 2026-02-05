@@ -1,7 +1,10 @@
-from IPython.display import display, HTML
-
-display(HTML("""
-<style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine Spam</title>
+  <style>
 body {
   font-family: Arial, sans-serif;
   background: #fff0f7;
@@ -86,7 +89,9 @@ button {
   color: #ff1478;
   margin-top: 20px;
 }
-</style>
+  </style>
+</head>
+<body>
 
 <div id="spamLink">💌 Spam</div>
 
@@ -162,4 +167,5 @@ yes.addEventListener("click", () => {
   }
 });
 </script>
-"""))
+</body>
+</html>
