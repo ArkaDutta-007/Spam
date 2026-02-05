@@ -107,11 +107,15 @@ const yes = document.getElementById("yes");
 const no = document.getElementById("no");
 const love = document.getElementById("love");
 
-spam.onclick = () => {
+spam.addEventListener("click", () => {
   card.style.display = "block";
-};
+});
+spam.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  card.style.display = "block";
+});
 
-envelope.onclick = () => {
+function openEnvelope() {
   envelope.classList.add("open");
   setTimeout(()=>{
     q.style.display="block";
@@ -120,15 +124,31 @@ envelope.onclick = () => {
     no.style.left="180px";
     no.style.top="260px";
   },500);
-};
+}
 
-no.onmouseover = () => {
+envelope.addEventListener("click", openEnvelope);
+envelope.addEventListener("touchend", (e) => {
+  e.preventDefault();
+  openEnvelope();
+});
+
+no.addEventListener("mouseover", () => {
   no.style.animation="shake .3s";
-  no.style.left=Math.random()*260+"px";
-  no.style.top=Math.random()*260+"px";
-};
+  const maxX = card.offsetWidth - no.offsetWidth;
+  const maxY = card.offsetHeight - no.offsetHeight;
+  no.style.left = Math.random()*maxX+"px";
+  no.style.top = Math.random()*maxY+"px";
+});
 
-yes.onclick = () => {
+no.addEventListener("touchstart", () => {
+  no.style.animation="shake .3s";
+  const maxX = card.offsetWidth - no.offsetWidth;
+  const maxY = card.offsetHeight - no.offsetHeight;
+  no.style.left = Math.random()*maxX+"px";
+  no.style.top = Math.random()*maxY+"px";
+});
+
+yes.addEventListener("click", () => {
   love.style.display="block";
   for(let i=0;i<120;i++){
     const c=document.createElement("div");
@@ -136,9 +156,10 @@ yes.onclick = () => {
     c.style.left=Math.random()*100+"vw";
     c.style.background=["#ff409f","#ffd1e8","#ffe066","#66d9ff"][Math.floor(Math.random()*4)];
     c.style.animationDuration=(Math.random()*2+2)+"s";
+    c.style.zIndex="9999";
     document.body.appendChild(c);
     setTimeout(()=>c.remove(),3000);
   }
-};
+});
 </script>
 """))
