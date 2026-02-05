@@ -1,0 +1,144 @@
+from IPython.display import display, HTML
+
+display(HTML("""
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #fff0f7;
+}
+
+#spamLink {
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff1478;
+  cursor: pointer;
+}
+
+/* Card */
+#card {
+  display: none;
+  width: 420px;
+  margin: 40px auto;
+  background: white;
+  border-radius: 22px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,.2);
+  position: relative;
+}
+
+/* Envelope */
+#envelope {
+  font-size: 80px;
+  cursor: pointer;
+  transition: transform .6s;
+}
+#envelope.open {
+  transform: translateY(-40px) scale(1.1);
+}
+
+/* Buttons */
+button {
+  font-size: 20px;
+  padding: 10px 26px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+}
+#yes { background: #ff409f; color: white; }
+#no {
+  background: #ff8bd1;
+  position: absolute;
+}
+
+/* Wings */
+#no::before, #no::after {
+  content: "🪽";
+  position: absolute;
+  top: -18px;
+}
+#no::before { left: -18px; }
+#no::after { right: -18px; }
+
+@keyframes shake {
+  0%{transform:translate(0,0);}
+  25%{transform:translate(3px,-3px);}
+  50%{transform:translate(-3px,3px);}
+  75%{transform:translate(3px,3px);}
+  100%{transform:translate(0,0);}
+}
+
+/* Confetti */
+.confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -10px;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  to { transform: translateY(110vh) rotate(360deg); }
+}
+
+#love {
+  display: none;
+  font-size: 34px;
+  color: #ff1478;
+  margin-top: 20px;
+}
+</style>
+
+<div id="spamLink">💌 Spam</div>
+
+<div id="card">
+  <div id="envelope">💌</div>
+  <h2 id="q" style="display:none;">Will you be my Valentine? 💖</h2><br>
+  <button id="yes" style="display:none;">YES</button>
+  <button id="no" style="display:none;">no</button>
+  <div id="love">I love you ❤️</div>
+</div>
+
+<script>
+const spam = document.getElementById("spamLink");
+const card = document.getElementById("card");
+const envelope = document.getElementById("envelope");
+const q = document.getElementById("q");
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const love = document.getElementById("love");
+
+spam.onclick = () => {
+  card.style.display = "block";
+};
+
+envelope.onclick = () => {
+  envelope.classList.add("open");
+  setTimeout(()=>{
+    q.style.display="block";
+    yes.style.display="inline-block";
+    no.style.display="inline-block";
+    no.style.left="180px";
+    no.style.top="260px";
+  },500);
+};
+
+no.onmouseover = () => {
+  no.style.animation="shake .3s";
+  no.style.left=Math.random()*260+"px";
+  no.style.top=Math.random()*260+"px";
+};
+
+yes.onclick = () => {
+  love.style.display="block";
+  for(let i=0;i<120;i++){
+    const c=document.createElement("div");
+    c.className="confetti";
+    c.style.left=Math.random()*100+"vw";
+    c.style.background=["#ff409f","#ffd1e8","#ffe066","#66d9ff"][Math.floor(Math.random()*4)];
+    c.style.animationDuration=(Math.random()*2+2)+"s";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+};
+</script>
+"""))
